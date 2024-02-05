@@ -1,0 +1,105 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/catalog/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5285
+        }
+      ],
+      "UpstreamPathTemplate": "/catalog/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    //Aggregation
+    {
+      "DownstreamPathTemplate": "/api/catalog/getproducts",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5285
+        }
+      ],
+      "Key": "ProductRoute",
+      "UpstreamPathTemplate": "/catalog/getproducts",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Catalog/GetCategories",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5285
+        }
+      ],
+      "Key": "CategoryRoute",
+      "UpstreamPathTemplate": "/catalog/categories",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/Auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5291
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    }, //protected apis
+    {
+      "DownstreamPathTemplate": "/api/product/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5285
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "DNTCatalogKey@123#"
+      },
+      "RouteClaimsRequirement": {
+        "Roles": "Admin"
+      },
+      "UpstreamPathTemplate": "/product/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/file/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5285
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "DNTCatalogKey@123#"
+      },
+      "RouteClaimsRequirement": {
+        "Roles": "Admin"
+      },
+      "UpstreamPathTemplate": "/catalogfile/{everything}",
+      "UpstreamHttpMethod": [ "Post", "Delete" ]
+    }
+  ],
+  "Aggregates": [
+    {
+      "UpstreamPathTemplate": "/products-categories",
+      "RouteKeys": [
+        "CategoryRoute",
+        "ProductRoute"
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:5213"
+  }
+}

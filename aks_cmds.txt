@@ -1,0 +1,38 @@
+az login
+
+az acr login --name <acr_registry_name>
+e.g az acr login --name shtacr.azurecr.io
+
+or
+az acr login --name <acr_registry_name> -u <registry_username>
+e.g az acr login --name shtacr.azurecr.io -u shtacr
+
+build docker image
+
+C:\Users\wgr175\Desktop\Microservices\MicroservicesApp>docker build -t catalogservice:v5 . -f ./catalogservice/Dockerfile
+
+
+C:\Users\wgr175\Desktop\Microservices\MicroservicesApp>docker tag catalogservice:v5 shtacr.azurecr.io/catalogservice:v5
+
+
+push docker image to acr
+docker push shtacr.azurecr.io/catalogservice:v5
+
+
+az aks get-credentials -g <resource-group> -n <aks_name>
+e.g az aks get-credentials -g MicroservicesRg -n shtaks
+
+
+to create the secrate 
+kubectl create secret docker-registry <acr_secrate_name> --docker-server=<acr_Login server> --docker-username=<acr_username> --docker-password=<acr_password>
+
+ e.g kubectl create secret docker-registry acr-secret --docker-server=shtacr.azurecr.io --docker-username=shtacr --docker-password=APaXR+hXxYEt6LvkzN78SIcZLP0qa0XFIR71qfxT5T+ACRC9S/KQ
+
+
+deploy yml file
+
+C:\Users\wgr175\Desktop\Microservices\MicroservicesApp\CatalogService> kubectl apply -f deployment.yml
+
+kubectl get pods
+
+ kubectl get services

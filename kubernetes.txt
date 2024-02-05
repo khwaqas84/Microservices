@@ -1,0 +1,19 @@
+﻿kubectl help
+kubectl get nodes
+kubectl cluster-info
+kubectl config get-clusters
+kubectl config get-contexts
+kubectl config view
+kubectl config use-context docker-desktop
+
+kubectl version --output=json
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+
+Check Config file here=C:\Users\wgr175\.kube\config
+
+
+
+
+
+https://aka.ms/installazurecliwindows
